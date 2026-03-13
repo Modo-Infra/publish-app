@@ -1,0 +1,54 @@
+name: dispatch-router
+
+on:
+  repository_dispatch:
+    types: [viza.dispatch]
+
+jobs:
+  run:
+    name: Dispatch via SSOT (viza-dispatch-flow)
+    runs-on: ${{ github.event.client_payload.runnerLabel == 'selfhosted' && 'viza-builder' || 'ubuntu-latest' }}
+    environment: deployment
+
+    steps:
+      - name: Generate infra token
+        id: core-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.GHA_READER_ID }}
+          private-key: ${{ secrets.GHA_READER_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Checkout dispatch flow
+        uses: actions/checkout@v6
+        with:
+          repository: ${{ github.repository_owner }}/viza-dispatch-flow
+          ref: main
+          token: ${{ steps.core-token.outputs.token }}
+          path: _dispatch
+          fetch-depth: 1
+
+      - name: Run dispatch router
+        uses: ./_dispatch/actions/dispatch-router
+        with:
+          executionKey: ${{ github.event.client_payload.executionKey }}
+          runnerLabel: ${{ github.event.client_payload.runnerLabel }}
+          actor: ${{ github.event.client_payload.actor }}
+          envelope_base64: ${{ github.event.client_payload.envelope_base64 }}
+          signature: ${{ github.event.client_payload.signature }}
+          alg: ${{ github.event.client_payload.alg }}          
+          gha_reader_id: ${{ vars.GHA_READER_ID }}
+          gha_reader_key: ${{ secrets.GHA_READER_KEY }}
+          dispatch_payload_secret: ${{ secrets.DISPATCH_PAYLOAD_SECRET }}
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          az_accountant_upn: ${{ secrets.AZ_ACCOUNTANT_UPN }}
+          gha_deployer_key: ${{ secrets.GHA_DEPLOYER_KEY }}
+          gha_dispatcher_key: ${{ secrets.GHA_DISPATCHER_KEY }}
+          gha_runner_app_key: ${{ secrets.GHA_RUNNER_APP_KEY }}
+          cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          cloudflare_r2_access_key_id: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
+          cloudflare_r2_secret_access_key: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
+          hub_age_identity_key: ${{ secrets.HUB_AGE_IDENTITY_KEY }}
+          sys_hub_age_recipient: ${{ vars.SYS_HUB_AGE_RECIPIENT }}
+          gha_packages_token: ${{ secrets.GHA_PACKAGES_TOKEN }}
+          vizaux_package_token: ${{ secrets.VIZAUX_PACKAGE_TOKEN }}
