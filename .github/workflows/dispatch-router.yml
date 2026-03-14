@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Generate infra token
         id: core-token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ vars.GHA_READER_ID }}
           private-key: ${{ secrets.GHA_READER_KEY }}
