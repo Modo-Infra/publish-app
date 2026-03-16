@@ -4,6 +4,10 @@ on:
   repository_dispatch:
     types: [viza.dispatch]
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   run:
     name: Dispatch via SSOT (viza-dispatch-flow)
