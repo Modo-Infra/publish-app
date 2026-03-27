@@ -51,4 +51,6 @@ jobs:
           hub_age_identity_key: ${{ secrets.HUB_AGE_IDENTITY_KEY }}
           sys_hub_age_recipient: ${{ vars.SYS_HUB_AGE_RECIPIENT }}
           gha_packages_token: ${{ secrets.GHA_PACKAGES_TOKEN }}
-          vizaux_package_token: ${{ secrets.VIZAUX_PACKAGE_TOKEN }}
+          pat_vizaux_package: ${{ secrets.PAT_VIZAUX_PACKAGE }}
+          pat_deployer_readonly: ${{ secrets.PAT_DEPLOYER_READONLY }}
+          pat_runner_readonly: ${{ secrets.PAT_RUNNER_READONLY }}
