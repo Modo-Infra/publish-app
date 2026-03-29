@@ -4,6 +4,10 @@ on:
   repository_dispatch:
     types: [viza.dispatch]
 
+concurrency:
+  group: ${{ github.event.client_payload.executionKey }}
+  cancel-in-progress: false
+
 jobs:
   run:
     name: Dispatch via SSOT (viza-dispatch-flow)
@@ -31,8 +35,6 @@ jobs:
       - name: Run dispatch router
         uses: ./_dispatch/actions/dispatch-router
         with:
-          executionKey: ${{ github.event.client_payload.executionKey }}
-          runnerLabel: ${{ github.event.client_payload.runnerLabel }}
           actor: ${{ github.event.client_payload.actor }}
           envelope_base64: ${{ github.event.client_payload.envelope_base64 }}
           signature: ${{ github.event.client_payload.signature }}
