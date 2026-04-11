@@ -19,7 +19,7 @@ jobs:
         id: core-token
         uses: actions/create-github-app-token@v3
         with:
-          app-id: ${{ vars.GHA_READER_ID }}
+          client-id: ${{ vars.GHA_READER_CID }}
           private-key: ${{ secrets.GHA_READER_KEY }}
           owner: Modo-Infra
 
@@ -39,7 +39,7 @@ jobs:
           envelope_base64: ${{ github.event.client_payload.envelope_base64 }}
           signature: ${{ github.event.client_payload.signature }}
           alg: ${{ github.event.client_payload.alg }}          
-          gha_reader_id: ${{ vars.GHA_READER_ID }}
+          gha_reader_cid: ${{ vars.GHA_READER_CID }}
           gha_reader_key: ${{ secrets.GHA_READER_KEY }}
           dispatch_payload_secret: ${{ secrets.DISPATCH_PAYLOAD_SECRET }}
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
