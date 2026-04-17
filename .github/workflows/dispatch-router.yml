@@ -36,6 +36,7 @@ jobs:
         uses: ./_dispatch/actions/dispatch-router
         with:
           actor: ${{ github.event.client_payload.actor }}
+          execution_key: ${{ github.event.client_payload.executionKey }}
           envelope_base64: ${{ github.event.client_payload.envelope_base64 }}
           signature: ${{ github.event.client_payload.signature }}
           alg: ${{ github.event.client_payload.alg }}          
