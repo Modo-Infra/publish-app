@@ -21,12 +21,12 @@ jobs:
         with:
           client-id: ${{ vars.GHA_READER_CID }}
           private-key: ${{ secrets.GHA_READER_KEY }}
-          owner: Modo-Infra
+          owner: Modo-Auth
 
       - name: Checkout dispatch flow
         uses: actions/checkout@v6
         with:
-          repository: Modo-Infra/viza-dispatch-flow
+          repository: Modo-Auth/viza-dispatch-flow
           ref: main
           token: ${{ steps.core-token.outputs.token }}
           path: _dispatch
